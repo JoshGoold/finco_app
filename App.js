@@ -9,11 +9,14 @@ import HomeNav from './App/Navs/HomeNav'
  const App = ()=> {
   
   return(
-    <SafeAreaView style={{flex: 1}}>
+    <Provider store={store}>
+      <SafeAreaView style={{flex: 1}}>
         <NavigationContainer>
           <HomeNav/>
         </NavigationContainer>
       </SafeAreaView>
+    </Provider>
+    
   )
       
     

@@ -1,128 +1,182 @@
-import React from 'react'
+import React from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
+  TextInput,
   Modal,
   StyleSheet,
-  Button,
-} from 'react-native'
-// import EmojiPicker from 'emoji-picker-react'
+  TouchableOpacity,
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addBudget,
+  clearBudgetInput,
+  setBudgetInput,
+  toggleActive,
+} from "../../../../redux/actions";
 
 const CreateBudget = ({ edit }) => {
+  const { icon, name, amount } = useSelector((state) => state.input);
+  const dispatch = useDispatch();
+  const active = useSelector((state) => state.active);
 
-  const emoji = '💰'
-  const budgetName = 'Dorm Room'
-  const amount = 5000
-
+  const handleInputChange = (field, value) => {
+    dispatch(setBudgetInput(field, value));
+  };
 
   const handleSave = () => {
-    console.log('Saving budget...')
-    console.log(`Name: ${budgetName}`)
-    console.log(`Amount: ${amount}`)
-    console.log(`Emoji: ${emoji}`)
-  }
+    const newBudget = {id:Date.now(), name, icon, amount };
+    dispatch(addBudget(newBudget));
+    dispatch(clearBudgetInput());
+    handleCancel()
+  };
 
   const handleCancel = () => {
-    console.log('Cancel action triggered.')
-  }
+    dispatch(toggleActive());
+  };
 
   return (
     <View>
       <TouchableOpacity
-        onPress={() => console.log('Opening modal...')}
+        onPress={() => dispatch(toggleActive())}
         style={styles.triggerButton}
       >
         <Text style={styles.triggerButtonText}>
-          {edit ? 'Edit Budget' : 'Add New Budget +'}
+          {edit ? "Edit Budget" : "Add New Budget +"}
         </Text>
       </TouchableOpacity>
-      <Modal visible={false} animationType="slide" transparent>
+      <Modal visible={active} animationType="slide" transparent>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>
-              {edit ? 'Edit Budget' : 'Create New Budget'}
+              {edit ? "Edit Budget" : "Create New Budget"}
             </Text>
             <TouchableOpacity style={styles.emojiButton}>
-              <Text style={styles.emojiText}>{emoji}</Text>
+              <Text style={styles.emojiText}>{icon}</Text>
             </TouchableOpacity>
             <View style={styles.inputContainer}>
               <Text>Budget Name</Text>
-              <Text style={styles.input}>{budgetName}</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter budget name"
+                value={name}
+                onChangeText={(text) => handleInputChange("name", text)}
+              />
             </View>
             <View style={styles.inputContainer}>
               <Text>Budget Amount</Text>
-              <Text style={styles.input}>{amount}</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter budget amount"
+                value={amount}
+                keyboardType="numeric"
+                onChangeText={(text) => handleInputChange("amount", text)}
+              />
             </View>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={{width: "40%", backgroundColor: '#0F172A', padding: 10, borderRadius: 15}} onPress={handleSave}><Text style={{color: 'white', textAlign: 'center', fontSize:20}}>Save</Text></TouchableOpacity>
-                <TouchableOpacity style={{width: "40%",borderWidth: 1, backgroundColor: 'white', padding: 10, borderRadius: 15}} onPress={handleCancel}><Text style={{color: '#0F172A', fontSize:20, textAlign: "center"}}>Cancel</Text></TouchableOpacity>
-              
+              <TouchableOpacity
+                style={{
+                  width: "40%",
+                  backgroundColor: "#0F172A",
+                  padding: 10,
+                  borderRadius: 15,
+                }}
+                onPress={handleSave}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    textAlign: "center",
+                    fontSize: 20,
+                  }}
+                >
+                  Add Budget
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  width: "40%",
+                  borderWidth: 1,
+                  backgroundColor: "white",
+                  padding: 10,
+                  borderRadius: 15,
+                }}
+                onPress={handleCancel}
+              >
+                <Text
+                  style={{
+                    color: "#0F172A",
+                    fontSize: 20,
+                    textAlign: "center",
+                  }}
+                >
+                  Cancel
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   triggerButton: {
-    backgroundColor: '#0F172A', 
+    backgroundColor: "#0F172A",
     padding: 10,
     borderRadius: 5,
-    alignItems: 'center',
+    alignItems: "center",
   },
   triggerButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    width: '90%',
-    backgroundColor: '#fff',
+    width: "90%",
+    backgroundColor: "#fff",
     borderRadius: 20,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
   },
   emojiButton: {
-    backgroundColor: '#e6e6e6', 
+    backgroundColor: "#e6e6e6",
     borderRadius: 50,
     padding: 10,
     marginRight: 8,
-    marginBottom: 10
+    marginBottom: 10,
   },
   emojiText: {
     fontSize: 24,
   },
   inputContainer: {
-    width: '100%',
+    width: "100%",
     marginBottom: 15,
   },
   input: {
-    
     borderRadius: 10,
     padding: 10,
     marginTop: 5,
-    width: '100%',
-    backgroundColor: '#e6e6e6',
+    width: "100%",
+    backgroundColor: "#e6e6e6",
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     marginTop: 20,
-    width: '100%',
+    width: "100%",
   },
-})
+});
 
-export default CreateBudget
+export default CreateBudget;

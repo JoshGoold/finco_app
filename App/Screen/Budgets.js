@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView, FlatList } from 'react-native'
 import Budget from '../Components/Home/Budgets/Budget'
 import CreateBudget from '../Components/Home/Budgets/CreateBudget'
 import Nav from '../Components/Nav'
 import Chart from '../Components/Home/Budgets/LineChart'
 import ExpenseList from '../Components/Home/Budgets/ExpensesList'
+import { useDispatch, useSelector } from 'react-redux'
+import { setActiveSection } from '../../redux/actions'
 
 const SummaryCard = ({ title, value }) => {
   return (
@@ -18,8 +20,9 @@ const SummaryCard = ({ title, value }) => {
 }
 
 const Budgets = () => {
-  const [activeSection, setActiveSection] = useState('statistics') // Toggle between sections
-
+  const dispatch = useDispatch()
+  const budgets = useSelector((state) => state.budgets)
+  const activeSection = useSelector((state)=>state.budgets_activeSection)
   const totalMoneyHave = 10000.0
   const totalSpendings = 5050.03
   const totalBudgets = 5
@@ -56,13 +59,13 @@ const Budgets = () => {
          
           <TouchableOpacity
             style={[styles.toggleButton, activeSection === 'budgets' && styles.activeButton]}
-            onPress={() => setActiveSection('budgets')}
+            onPress={() =>dispatch(setActiveSection('budgets')) }
           >
             <Text style={[styles.toggleText, activeSection === 'budgets' && styles.activeText]}>Budgets</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.toggleButton, activeSection === 'statistics' && styles.activeButton]}
-            onPress={() => setActiveSection('statistics')}
+            onPress={() =>dispatch(setActiveSection('statistics')) }
           >
             <Text style={[styles.toggleText, activeSection === 'statistics' && styles.activeText]}>Statistics</Text>
           </TouchableOpacity>
@@ -76,12 +79,18 @@ const Budgets = () => {
           </View>
         ) : (
           <View style={{ paddingHorizontal: 10, paddingVertical: 20 }}>
-            <Budget />
-            <Budget />
-            <Budget />
-            <Budget />
-            <Budget />
-          </View>
+          {budgets.length > 0 ? (
+            <FlatList
+              data={budgets}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <Budget budget={item} />
+              )}
+            />
+          ) : (
+            <Text style={styles.noBudgetsText}>No budgets available</Text>
+          )}
+        </View>
         )}
       </ScrollView>
 

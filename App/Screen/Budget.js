@@ -15,10 +15,13 @@ import ExpenseList from "../Components/Home/Budgets/ExpensesList";
 import Budget from "../Components/Home/Budgets/Budget";
 import { ScrollView } from "react-native-gesture-handler";
 import Nav from "../Components/Nav";
+import { useDispatch } from "react-redux";
+import { removeBudget } from "../../redux/actions";
 
 const BudgetPage = () => {
+  const dispatch = useDispatch()
   const navigation = useNavigation();
-  //   const budget = useRoute().params.budget
+    const budget = useRoute().params.budget
 
   const deleteBudget = () => {
     Alert.alert(
@@ -33,7 +36,8 @@ const BudgetPage = () => {
         {
           text: "Delete",
           onPress: () => {
-            navigation.goBack();
+            dispatch(removeBudget(budget.id));
+            navigation.goBack()
           },
         },
       ]
@@ -62,12 +66,13 @@ const BudgetPage = () => {
         <View style={styles.header}>
           <Text style={styles.pageTitle}>My Expenses</Text>
           <View style={styles.actionButtons}>
-            <TouchableOpacity style={{backgroundColor: 'red', padding: 10, borderRadius: 10}}><Text style={{color: 'white', fontWeight: 'bold'}}>Delete</Text></TouchableOpacity>
-            {/* <Button title="Delete" onPress={deleteBudget} color="red" /> */}
+            <TouchableOpacity onPress={deleteBudget} style={{backgroundColor: 'red', padding: 10, borderRadius: 10}}><Text style={{color: 'white', fontWeight: 'bold'}}>Delete</Text></TouchableOpacity>
+            {/* <Button title="Delete"  color="red" /> */}
           </View>
         </View>
         <View style={{ flexDirection: "column", gap: 10 }}>
-          <Budget />
+          <Budget budget={budget}/>
+          {/* <Text>{budget.id}</Text> */}
           <AddExpense budgetId={100} userId={10000} />
         </View>
 

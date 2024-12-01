@@ -1,115 +1,80 @@
-import { ADD_INGREDIENT, ADD_INSTRUCTION, ADD_RECIPE, CLEAR_RECIPE_INPUT, REMOVE_INGREDIENT, REMOVE_INSTRUCTION, REMOVE_RECIPE, SET_CURRENT_INGREDIENT, SET_CURRENT_INSTRUCTION, SET_RECIPE_INPUT, SET_RECIPES, SET_THEME, TOGGLE_ACTIVE, UPDATE_RECIPE } from "../actions"
-
-// recipe: id, description, image, ingredients array, instructions array, title
+import {
+  ADD_Budget,
+  CLEAR_Budget_INPUT,
+  REMOVE_Budget,
+  SET_Budget_INPUT,
+  SET_Budgets,
+  SET_B_ACTIVE_SECTION,
+  TOGGLE_ACTIVE,
+  UPDATE_Budget,
+} from "../actions";
 
 const initial = {
-  recipes: [],
+  budgets: [],
   input: {
     id: Date.now(),
-    title: '',
-    image: '',
-    description: '',
-    ingredients: [],
-    instructions: [],
+    icon: "💵",
+    name: "",
+    amount: 0,
   },
+  budgets_activeSection: "statistics",
   active: false,
-  isLightTheme: false
-}
+  isLightTheme: false,
+};
 
-const recipeHandler = (state = initial, action) => {
+const budgetHandler = (state = initial, action) => {
   switch (action.type) {
-    case SET_RECIPES:
+    case SET_Budgets:
       return {
         ...state,
-        recipes: action.payload
-      }
+        budgets: action.payload,
+      };
     case TOGGLE_ACTIVE:
       return {
         ...state,
         active: !state.active,
-      }
-      case SET_THEME:
-        return {
+      };
+    case SET_B_ACTIVE_SECTION:
+      return {
+        ...state,
+        budgets_activeSection: action.payload,
+      };
+    case ADD_Budget:
+      return {
+        ...state,
+        budgets: [...state.budgets, action.payload],
+      };
+    case REMOVE_Budget:
+      return {
+        ...state,
+        budgets: state.budgets.filter((budget) => budget.id !== action.payload),
+      };
+      case UPDATE_Budget:
+        return{
           ...state,
-          isLightTheme: !state.isLightTheme
+          
         }
-    case ADD_RECIPE:
-      return {
-        ...state,
-        recipes: [...state.recipes, action.payload]
-      }
-    case REMOVE_RECIPE:
-      return {
-        ...state,
-        recipes: state.recipes.filter((recipe) => recipe.id !== action.payload)
-      }
-    case SET_RECIPE_INPUT:
+     
+    case SET_Budget_INPUT:
       return {
         ...state,
         input: { ...state.input, [action.payload.name]: action.payload.value },
-      }
-    case CLEAR_RECIPE_INPUT:
+      };
+
+    case CLEAR_Budget_INPUT:
       return {
         ...state,
         input: {
+          icon: '💵',
           id: Date.now(),
-          title: '',
-          image: '',
-          description: '',
-          ingredients: [],
-          instructions: [],
-          currentIngredient: '',
-          currentInstruction: '',
+          name: "",
+          amount: 0,
+        },
+      };
 
-        }
-      }
-    case REMOVE_INGREDIENT:
-      return {
-        ...state,
-        input: {
-          ...state.input,
-          ingredients: state.input.ingredients.filter((_, index) => index !== action.payload),
-        }
-      }
-      case ADD_INGREDIENT:
-        return {
-          ...state,
-          input: {
-            ...state.input,
-            ingredients: [...state.input.ingredients, state.input.currentIngredient],
-            currentIngredient: '', 
-          },
-        }
-      case ADD_INSTRUCTION:
-        return {
-          ...state,
-          input: {
-            ...state.input,
-            instructions: [...state.input.instructions, state.input.currentInstruction],
-            currentInstruction: '',
-          },
-        }
-    case REMOVE_INSTRUCTION:
-      return {
-        ...state,
-        input: {
-          ...state.input,
-          instructions: state.input.instructions.filter((_, index) => index !== action.payload),
-        }
-      }
-    case SET_CURRENT_INGREDIENT:
-      return {
-        ...state,
-        input: { ...state.input, currentIngredient: action.payload },
-      }
-    case SET_CURRENT_INSTRUCTION:
-      return {
-        ...state,
-        input: { ...state.input, currentInstruction: action.payload },
-      }
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default recipeHandler
+export default budgetHandler;

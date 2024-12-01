@@ -2,29 +2,29 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native' // Assuming you use React Navigation for routing
 
-const Budget = () => {
+const Budget = ({budget}) => {
   const nav = useNavigation()
-  const percent = Math.round((400 / 500) * 100)
+  const percent = Math.round((400 / Number(budget.amount)) * 100)
   const maxPercent = Math.min(percent, 100)
   const progressBarColor = percent > 100 ? styles.destructive : styles.primary
 
   return (
     <TouchableOpacity
-    onPress={()=>nav.navigate('budget')}
+    onPress={()=>nav.navigate('budget',{budget: budget} )}
       // onPress={() => navigation.navigate('Expenses', { id: item?.id })}
       style={styles.container}
     >
       <View style={styles.header}>
         <View style={styles.iconAndName}>
           <View style={styles.iconWrapper}>
-            <Text style={styles.icon}>👀</Text>
+            <Text style={styles.icon}>{budget.icon}</Text>
           </View>
           <View>
-            <Text style={styles.name}>My First Bidget</Text>
+            <Text style={styles.name}>{budget.name}</Text>
             <Text style={styles.items}>35 Item(s)</Text>
           </View>
         </View>
-        <Text style={styles.amount}>$500</Text>
+        <Text style={styles.amount}>${budget.amount}</Text>
       </View>
       <View style={styles.progressSection}>
         <View style={styles.progressLabels}>
@@ -32,7 +32,7 @@ const Budget = () => {
             $400.00
           </Text>
           <Text style={styles.remaining}>
-            $100 remaining
+            ${Number(budget.amount-400)} remaining
           </Text>
         </View>
         <View style={styles.progressBarBackground}>

@@ -48,6 +48,7 @@ const ExpenseList = () => {
       
       <FlatList
       style={{paddingBottom: 10}}
+      nestedScrollEnabled
         data={expenses}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
