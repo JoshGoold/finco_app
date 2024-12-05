@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -13,12 +13,14 @@ import {
   clearBudgetInput,
   setBudgetInput,
   toggleActive,
-} from "../../../../redux/actions";
+} from "../../../redux/actions"
+// import EmojiSelector from 'react-native-emoji-selector';
 
 const CreateBudget = ({ edit }) => {
-  const { icon, name, amount } = useSelector((state) => state.input);
+  const { icon, name, amount } = useSelector((state) => state.b_input);
   const dispatch = useDispatch();
   const active = useSelector((state) => state.active);
+  const [openEmojiPicker, setopenEmojiPicker] = useState(true)
 
   const handleInputChange = (field, value) => {
     dispatch(setBudgetInput(field, value));
@@ -51,7 +53,17 @@ const CreateBudget = ({ edit }) => {
             <Text style={styles.modalTitle}>
               {edit ? "Edit Budget" : "Create New Budget"}
             </Text>
+            <View style={{ height: 300 }}>
+    {/* <EmojiSelector
+    style={{fontSize: 2}}
+      onEmojiSelected={(emoji) => {
+        handleInputChange('icon', emoji);
+        setopenEmojiPicker(false);
+      }}
+    /> */}
+  </View>
             <TouchableOpacity style={styles.emojiButton}>
+              {/* <EmojiPicker style={styles.emojiText}/> */}
               <Text style={styles.emojiText}>{icon}</Text>
             </TouchableOpacity>
             <View style={styles.inputContainer}>

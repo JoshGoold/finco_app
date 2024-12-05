@@ -4,14 +4,17 @@ export const REMOVE_Budget = 'REMOVE_Budget'
 export const UPDATE_Budget = 'UPDATE_Budget'
 export const SET_Budget_INPUT = 'SET_Budget_INPUT'
 export const CLEAR_Budget_INPUT = 'CLEAR_Budget_INPUT'
-// ingredients and instructions are arrays so handled differently
-export const ADD_INGREDIENT = 'ADD_INGREDIENT'
-export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT'
-export const ADD_INSTRUCTION = 'ADD_INSTRUCTION'
-export const REMOVE_INSTRUCTION = 'REMOVE_INSTRUCTION'
+
+export const SET_EXPENSES = 'SET_EXPENSES'
+export const ADD_EXPENSE = 'ADD_EXPENSE'
+export const REMOVE_EXPENSE = 'REMOVE_EXPENSE'
+// export const UPDATE_EXPENSE = 'UPDATE_Budget'
+export const SET_EXPENSE_INPUT = 'SET_EXPENSE_INPUT'
+export const CLEAR_EXPENSE_INPUT = 'CLEAR_EXPENSE_INPUT'
+
+
 export const TOGGLE_ACTIVE = 'TOGGLE_ACTIVE'
-export const SET_CURRENT_INGREDIENT = 'SET_CURRENT_INGREDIENT';
-export const SET_CURRENT_INSTRUCTION = 'SET_CURRENT_INSTRUCTION';
+
 export const SET_B_ACTIVE_SECTION = 'SET_B_ACTIVE_SECTION'
 
 export const setActiveSection = (state)=>({
@@ -45,4 +48,28 @@ export const setBudgetInput = (name, value) => ({
 
 export const clearBudgetInput = () => ({
   type: CLEAR_Budget_INPUT,
+})
+
+export const setExpenses = (expenses) => ({
+  type: SET_EXPENSES,
+  payload: expenses
+})
+
+export const addExpense = (expense) => ({ 
+  type: ADD_EXPENSE, 
+  payload: expense 
+})
+
+export const removeExpense = (id) => ({
+  type: REMOVE_EXPENSE, 
+  payload: id 
+})
+
+export const setExpenseInput = (name, value) => ({
+  type: SET_EXPENSE_INPUT,
+  payload: { name, value }
+})
+
+export const clearExpenseInput = () => ({
+  type: CLEAR_EXPENSE_INPUT,
 })

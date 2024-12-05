@@ -1,16 +1,24 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native'
+import { addExpense, clearExpenseInput, setExpenseInput } from '../../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const AddExpense = ({ budgetId, userId }) => {
-  const [expenseName, setExpenseName] = useState('')
-  const [amount, setAmount] = useState('')
+  // const [expenseName, setExpenseName] = useState('')
+  // const [amount, setAmount] = useState('')
+
+  const { name, amount } = useSelector((state) => state.e_input);
+  const dispatch = useDispatch();
+
+  const handleInputChange = (field, value) => {
+    dispatch(setExpenseInput(field, value));
+  };
 
   const createExpense = () => {
-    if (expenseName && amount) {
-      // Call the API to create an expense
-      console.log('Creating expense', { expenseName, amount, budgetId, userId })
-    }
-  }
+    const newExpense = {id:Date.now(), name, budget: budgetId, amount };
+    dispatch(addExpense(newExpense));
+    dispatch(clearExpenseInput());
+  };
 
   return (
     <View style={styles.container}>
@@ -20,8 +28,8 @@ const AddExpense = ({ budgetId, userId }) => {
         <TextInput
           style={styles.input}
           placeholder="eg. Ford Truck"
-          value={expenseName}
-          onChangeText={setExpenseName}
+          value={name}
+          onChangeText={(text) => handleInputChange("name", text)}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -30,7 +38,7 @@ const AddExpense = ({ budgetId, userId }) => {
           style={styles.input}
           placeholder="eg. 5000"
           value={amount}
-          onChangeText={setAmount}
+          onChangeText={(text) => handleInputChange("amount", text)}
           keyboardType="numeric"
         />
       </View>

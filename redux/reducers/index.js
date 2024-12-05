@@ -7,11 +7,22 @@ import {
   SET_B_ACTIVE_SECTION,
   TOGGLE_ACTIVE,
   UPDATE_Budget,
+  ADD_EXPENSE,
+  REMOVE_EXPENSE,
+  SET_EXPENSE_INPUT,
+  CLEAR_EXPENSE_INPUT,
 } from "../actions";
 
 const initial = {
   budgets: [],
-  input: {
+  expenses: [],
+  e_input: {
+    id: Date.now(),
+    budget: '',
+    name: '',
+    amount: ''
+  },
+  b_input: {
     id: Date.now(),
     icon: "💵",
     name: "",
@@ -58,19 +69,49 @@ const budgetHandler = (state = initial, action) => {
     case SET_Budget_INPUT:
       return {
         ...state,
-        input: { ...state.input, [action.payload.name]: action.payload.value },
+        b_input: { ...state.b_input, [action.payload.name]: action.payload.value },
       };
 
     case CLEAR_Budget_INPUT:
       return {
         ...state,
-        input: {
+        b_input: {
           icon: '💵',
           id: Date.now(),
           name: "",
           amount: 0,
         },
       };
+
+      case ADD_EXPENSE:
+      return {
+        ...state,
+        expenses: [...state.expenses, action.payload],
+      };
+    case REMOVE_EXPENSE:
+      return {
+        ...state,
+        expenses: state.expenses.filter((expense) => expense.id !== action.payload),
+      };
+     
+    case SET_EXPENSE_INPUT:
+      return {
+        ...state,
+        e_input: { ...state.e_input, [action.payload.name]: action.payload.value },
+      };
+
+    case CLEAR_EXPENSE_INPUT:
+      return {
+        ...state,
+        e_input: {
+          id: Date.now(),
+          budget: '',
+          name: "",
+          amount: 0,
+        },
+      };
+
+    
 
     default:
       return state;

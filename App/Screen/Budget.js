@@ -10,9 +10,9 @@ import {
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native"; // For navigation
 // import { PanResponder } from 'react-native'
-import AddExpense from "../Components/Home/Budgets/AddExpense";
-import ExpenseList from "../Components/Home/Budgets/ExpensesList";
-import Budget from "../Components/Home/Budgets/Budget";
+import AddExpense from "../Components/Budgets/AddExpense";
+import ExpenseList from "../Components/Budgets/ExpensesList";
+import Budget from "../Components/Budgets/Budget";
 import { ScrollView } from "react-native-gesture-handler";
 import Nav from "../Components/Nav";
 import { useDispatch } from "react-redux";

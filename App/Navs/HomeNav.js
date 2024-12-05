@@ -8,6 +8,10 @@ import Login from "../Screen/Login"
 import SignUp from "../Screen/SignUp"
 import Budgets from "../Screen/Budgets"
 import BudgetPage from "../Screen/Budget"
+import Savings from "../Screen/Savings"
+import Bills from "../Screen/Bills"
+import Dashboard from "../Screen/Dashboard"
+import Plans from "../Screen/Plans"
 
 const HomeNav = () => {
   return (
@@ -18,6 +22,10 @@ const HomeNav = () => {
             <Stack.Screen name="signup" component={SignUp} />
             <Stack.Screen name="budgets" component={Budgets} />
             <Stack.Screen name="budget" component={BudgetPage} />
+            <Stack.Screen name="savings" component={Savings} />
+            <Stack.Screen name="bills" component={Bills} />
+            <Stack.Screen name="dashboard" component={Dashboard} />
+            <Stack.Screen name="plans" component={Plans} />
         </Stack.Navigator>
     
   )

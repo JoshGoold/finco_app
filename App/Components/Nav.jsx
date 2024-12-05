@@ -20,7 +20,7 @@ const Nav = ({isActive}) => {
 
     return (
       <TouchableOpacity
-        onPress={()=>nav.navigate('budgets')}
+        onPress={()=>nav.navigate(item.path)}
         style={[styles.navItem, isActive==item.path && styles.activeNavItem]}
       >
         <Text style={[styles.navText, isActive==item.path && styles.activeNavText]}>{item.title}</Text>
