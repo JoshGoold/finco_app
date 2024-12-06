@@ -53,15 +53,6 @@ const CreateBudget = ({ edit }) => {
             <Text style={styles.modalTitle}>
               {edit ? "Edit Budget" : "Create New Budget"}
             </Text>
-            <View style={{ height: 300 }}>
-    {/* <EmojiSelector
-    style={{fontSize: 2}}
-      onEmojiSelected={(emoji) => {
-        handleInputChange('icon', emoji);
-        setopenEmojiPicker(false);
-      }}
-    /> */}
-  </View>
             <TouchableOpacity style={styles.emojiButton}>
               {/* <EmojiPicker style={styles.emojiText}/> */}
               <Text style={styles.emojiText}>{icon}</Text>

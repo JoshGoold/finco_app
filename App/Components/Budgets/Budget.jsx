@@ -1,12 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native' // Assuming you use React Navigation for routing
+import { useSelector } from 'react-redux'
 
 const Budget = ({budget}) => {
+  const [amount, setAmount] = useState(0)
   const nav = useNavigation()
-  const percent = Math.round((400 / Number(budget.amount)) * 100)
+  const percent = Math.round((amount / Number(budget.amount)) * 100)
   const maxPercent = Math.min(percent, 100)
   const progressBarColor = percent > 100 ? styles.destructive : styles.primary
+
+  const expenses = useSelector((state)=>state.expenses)
+  const filteredExpenses = expenses?.filter((expense) => expense.budget === budget.id)
+
+  useEffect(()=>{
+    const getAmount =()=>{
+      let total = 0
+      filteredExpenses.forEach(expense => {
+        total += Number(expense.amount)
+      });
+      setAmount(total)
+    }
+
+    getAmount()
+  }, [filteredExpenses])
 
   return (
     <TouchableOpacity
@@ -21,7 +38,7 @@ const Budget = ({budget}) => {
           </View>
           <View>
             <Text style={styles.name}>{budget.name}</Text>
-            <Text style={styles.items}>35 Item(s)</Text>
+            <Text style={styles.items}>{filteredExpenses.length} Item(s)</Text>
           </View>
         </View>
         <Text style={styles.amount}>${budget.amount}</Text>
@@ -29,10 +46,10 @@ const Budget = ({budget}) => {
       <View style={styles.progressSection}>
         <View style={styles.progressLabels}>
           <Text style={styles.spent}>
-            $400.00
+            ${Number(amount).toFixed(2)}
           </Text>
           <Text style={styles.remaining}>
-            ${Number(budget.amount-400)} remaining
+            ${Number(budget.amount-amount)} remaining
           </Text>
         </View>
         <View style={styles.progressBarBackground}>

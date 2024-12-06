@@ -3,13 +3,14 @@ import { SafeAreaView, View, Text, StyleSheet, ScrollView, Button } from 'react-
 import CreateSavings from '../Components/savings/CreateSavings.jsx'
 import Tracker from '../Components/savings/Tracker.jsx';
 import Cards from '../Components/savings/Cards.jsx';
+import Nav from '../Components/Nav.jsx';
 
 const SavingsPage = () => {
   // Dummy data for savings
   const [savingsList, setList] = useState([
-    { id: 1, goal: 5000, saved: 2000, left: 3000, retired: false },
-    { id: 2, goal: 10000, saved: 7000, left: 3000, retired: false },
-    { id: 3, goal: 2000, saved: 0, left: 2000, retired: true },
+    { id: 1,name: 'stupid', goal: 5000, saved: 2000, left: 3000, retired: false },
+    { id: 2,name: 'stupid', goal: 10000, saved: 7000, left: 3000, retired: false },
+    { id: 3,name: 'stupid', goal: 2000, saved: 0, left: 2000, retired: true },
   ]);
   const [retired, setRetired] = useState([]);
   const [count, setCount] = useState(0);
@@ -50,15 +51,15 @@ const SavingsPage = () => {
     <ScrollView style={{
           backgroundColor: 'white',
           // marginTop: 30,
-          marginBottom: 40,
+          marginBottom: 60,
           padding: 20,
+          paddingBottom: 60,
           flexDirection: 'column',
           gap: 10,
         }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: 10 }}>
         <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#0F172A' }}>Savings</Text>
         <CreateSavings refreshData={getSavingsList} edit={false} existingData={null} />
-        
       </View>
       <Cards saved={saved} goal={goal} left={left} count={count} />
       
@@ -70,6 +71,9 @@ const SavingsPage = () => {
       </View>
 
     </ScrollView>
+    <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 60 }}>
+        <Nav isActive={'savings'} />
+      </View>
     </SafeAreaView>
   );
 };
@@ -99,6 +103,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     marginTop: 16,
+    paddingVertical: 20
   },
   noTrackers: {
     fontSize: 16,

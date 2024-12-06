@@ -42,7 +42,7 @@ const AddExpense = ({ budgetId, userId }) => {
           keyboardType="numeric"
         />
       </View>
-      <TouchableOpacity disabled={!(expenseName && amount)} style={{backgroundColor: "#0F172A", borderRadius: 10, padding: 10}} onPress={createExpense} ><Text style={{color: "white", textAlign: "center"}}>Add Expense</Text></TouchableOpacity>
+      <TouchableOpacity disabled={!(name && amount)} style={{backgroundColor: "#0F172A", borderRadius: 10, padding: 10}} onPress={createExpense} ><Text style={{color: "white", textAlign: "center"}}>Add Expense</Text></TouchableOpacity>
     </View>
   )
 }

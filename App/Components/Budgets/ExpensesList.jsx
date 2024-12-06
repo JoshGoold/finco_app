@@ -1,33 +1,36 @@
 import React from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { removeExpense } from '../../../redux/actions'
 
-// Dummy data for expenses
-const expenses = [
-  { id: 1, name: 'Groceries', amount: '$50', date: '2024-11-01' },
-  { id: 2, name: 'Rent', amount: '$1200', date: '2024-11-02' },
-  { id: 3, name: 'Utilities', amount: '$200', date: '2024-11-03' },
-  { id: 4, name: 'Subscriptions', amount: '$15', date: '2024-11-04' },
-  { id: 5, name: 'Groceries', amount: '$50', date: '2024-11-01' },
-  { id: 6, name: 'Rent', amount: '$1200', date: '2024-11-02' },
-  { id: 7, name: 'Utilities', amount: '$200', date: '2024-11-03' },
-  { id: 8, name: 'Subscriptions', amount: '$15', date: '2024-11-04' },
-]
+const convertTimestampToDate = (id) => {
+  const date = new Date(id)
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+  const day = date.getDate().toString().padStart(2, '0');
+  const year = date.getFullYear();
 
-// Convert timestamp to date (dummy function)
-const convertTimestampToDate = (date) => date
+  return `${month}/${day}/${year}`;
+}
 
-const ExpenseList = () => {
+const ExpenseList = ({budget}) => {
+
+  const expenses = useSelector((state)=>state.expenses)
+  const dispacth = useDispatch()
+
   const deleteExpense = (id) => {
     console.log(`Deleted expense with id: ${id}`)
-   
+   dispacth(removeExpense(id))
   }
+
+  
+  const filteredExpenses = budget? expenses?.filter((expense) => expense.budget === budget) : expenses.sort((a, b) => a.id - b.id); 
 
   const renderItem = ({ item }) => (
     <View style={[styles.row, styles.expenseRow]}>
       <Text style={styles.cell}>{item.name}</Text>
       <Text style={styles.cell}>{item.amount}</Text>
-      <Text style={styles.cell}>{convertTimestampToDate(item.date)}</Text>
+      <Text style={styles.cell}>{convertTimestampToDate(item.id)}</Text>
       <TouchableOpacity onPress={() => deleteExpense(item.id)} style={styles.cell}>
         <MaterialIcons name="delete" size={24} color="red" />
       </TouchableOpacity>
@@ -49,7 +52,7 @@ const ExpenseList = () => {
       <FlatList
       style={{paddingBottom: 10}}
       nestedScrollEnabled
-        data={expenses}
+        data={filteredExpenses}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />

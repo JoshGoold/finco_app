@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView, FlatList } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView, FlatList, Dimensions } from 'react-native'
 import Budget from '../Components/Budgets/Budget'
 import CreateBudget from '../Components/Budgets/CreateBudget'
 import Nav from '../Components/Nav'
@@ -27,9 +27,9 @@ const Budgets = () => {
   const totalSpendings = 5050.03
   const totalBudgets = 5
   const totalRemaining = totalMoneyHave - totalSpendings
-
+  // [styles.container, {height: Dimensions.get('screen').height}]
   return (
-    <SafeAreaView style={{ backgroundColor: 'white' }}>
+    <SafeAreaView style={{ backgroundColor: 'white', height: '100%' }}>
       <ScrollView
         style={{
           backgroundColor: 'white',
@@ -79,7 +79,7 @@ const Budgets = () => {
           </View>
         ) : (
           <View style={{ paddingHorizontal: 10, paddingVertical: 20 }}>
-          {budgets.length > 0 ? (
+          {budgets?.length > 0 ? (
             <FlatList
               data={budgets}
               keyExtractor={(item, index) => index.toString()}
@@ -94,7 +94,6 @@ const Budgets = () => {
         )}
       </ScrollView>
 
-      {/* Navigation */}
       <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 60 }}>
         <Nav isActive={'budgets'} />
       </View>

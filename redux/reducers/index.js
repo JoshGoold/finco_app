@@ -11,11 +11,24 @@ import {
   REMOVE_EXPENSE,
   SET_EXPENSE_INPUT,
   CLEAR_EXPENSE_INPUT,
+  ADD_SAVINGS_TRACKER,
+  REMOVE_SAVINGS_TRACKER,
+  SET_SAVINGS_TRACKER_INPUT,
+  CLEAR_SAVINGS_TRACKER_INPUT,
+  TOGGLE_S_ACTIVE,
 } from "../actions";
 
 const initial = {
   budgets: [],
   expenses: [],
+  deposits: [],
+  s_trackers: [],
+  s_input: {
+      id: Date.now(),
+      icon: "🪙",
+      name: "",
+      goal: 0
+    },
   e_input: {
     id: Date.now(),
     budget: '',
@@ -28,8 +41,15 @@ const initial = {
     name: "",
     amount: 0,
   },
+  s_input: {
+    id: Date.now(),
+    icon: "🪙",
+    name: "",
+    goal: 0
+  },
   budgets_activeSection: "statistics",
   active: false,
+  s_active: false,
   isLightTheme: false,
 };
 
@@ -44,6 +64,11 @@ const budgetHandler = (state = initial, action) => {
       return {
         ...state,
         active: !state.active,
+      };
+      case TOGGLE_S_ACTIVE:
+      return {
+        ...state,
+        s_active: !state.s_active,
       };
     case SET_B_ACTIVE_SECTION:
       return {
@@ -111,6 +136,33 @@ const budgetHandler = (state = initial, action) => {
         },
       };
 
+      case ADD_SAVINGS_TRACKER:
+        return {
+          ...state,
+          s_trackers: [...state.s_trackers, action.payload],
+        };
+      case REMOVE_SAVINGS_TRACKER:
+        return {
+          ...state,
+          s_trackers: state.s_trackers.filter((tracker) => tracker.id !== action.payload),
+        };
+
+        // not working for SOME reason only God the father knows
+      case SET_SAVINGS_TRACKER_INPUT:
+        return {
+          ...state,
+          s_input: { ...state.s_input, [action.payload.name]: action.payload.value },
+        };
+      case CLEAR_SAVINGS_TRACKER_INPUT:
+        return {
+          ...state,
+          s_input: {
+            id: Date.now(),
+            icon: "🪙",
+            name: "",
+            goal: 0
+          },
+        };
     
 
     default:

@@ -12,8 +12,15 @@ export const REMOVE_EXPENSE = 'REMOVE_EXPENSE'
 export const SET_EXPENSE_INPUT = 'SET_EXPENSE_INPUT'
 export const CLEAR_EXPENSE_INPUT = 'CLEAR_EXPENSE_INPUT'
 
+export const SET_SAVINGS_TRACKER = 'SET_SAVINGS_TRACKER'
+export const ADD_SAVINGS_TRACKER = 'ADD_SAVINGS_TRACKER'
+export const REMOVE_SAVINGS_TRACKER = 'REMOVE_SAVINGS_TRACKER'
+// export const UPDATE_EXPENSE = 'UPDATE_Budget'
+export const SET_SAVINGS_TRACKER_INPUT = 'SET_SAVINGS_TRACKER_INPUT'
+export const CLEAR_SAVINGS_TRACKER_INPUT = 'CLEAR_SAVINGS_TRACKER_INPUT'
 
 export const TOGGLE_ACTIVE = 'TOGGLE_ACTIVE'
+export const TOGGLE_S_ACTIVE = 'TOGGLE_S_ACTIVE'
 
 export const SET_B_ACTIVE_SECTION = 'SET_B_ACTIVE_SECTION'
 
@@ -24,6 +31,10 @@ export const setActiveSection = (state)=>({
 
 export const toggleActive = () => ({
   type: TOGGLE_ACTIVE
+})
+
+export const toggleSActive = () => ({
+  type: TOGGLE_S_ACTIVE
 })
 
 export const setBudgets = (Budgets) => ({
@@ -72,4 +83,23 @@ export const setExpenseInput = (name, value) => ({
 
 export const clearExpenseInput = () => ({
   type: CLEAR_EXPENSE_INPUT,
+})
+
+export const addSavingsTracker = (expense) => ({ 
+  type: ADD_SAVINGS_TRACKER, 
+  payload: expense 
+})
+
+export const removeSavingsTracker = (id) => ({
+  type: REMOVE_SAVINGS_TRACKER, 
+  payload: id 
+})
+
+export const setSavingsTrackerInput = (name, value) => ({
+  type: SET_SAVINGS_TRACKER,
+  payload: { name, value }
+})
+
+export const clearSavingsTrackerInput = () => ({
+  type: CLEAR_SAVINGS_TRACKER_INPUT,
 })

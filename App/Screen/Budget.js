@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  Dimensions,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native"; // For navigation
 // import { PanResponder } from 'react-native'
@@ -45,7 +46,7 @@ const BudgetPage = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, {height: Dimensions.get('screen').height}]}>
       <ScrollView
         style={{
           backgroundColor: "white",
@@ -73,12 +74,12 @@ const BudgetPage = () => {
         <View style={{ flexDirection: "column", gap: 10 }}>
           <Budget budget={budget}/>
           {/* <Text>{budget.id}</Text> */}
-          <AddExpense budgetId={100} userId={10000} />
+          <AddExpense budgetId={budget.id} userId={10000} />
         </View>
 
         <View style={styles.latestExpensesContainer}>
-          <Text style={styles.latestExpensesTitle}>Latest Expenses</Text>
-          <ExpenseList />
+          {/* <Text style={styles.latestExpensesTitle}>Latest Expenses</Text> */}
+          <ExpenseList budget={budget.id}/>
         </View>
       </ScrollView>
       <Nav isActive={'budgets'}/>

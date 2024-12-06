@@ -1,6 +1,6 @@
 import { createStore } from 'redux'
-import recipeHandler from '../reducers'
+import budgetHandler from '../reducers'
 
-const store = createStore(recipeHandler)
+const store = createStore(budgetHandler)
 
 export default store

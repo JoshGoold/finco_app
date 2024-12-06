@@ -13,34 +13,31 @@ const Tracker = ({ item, onNavigate }) => {
       style={styles.container}
       onPress={() => onNavigate(`/dashboard/savings/${item?.id}`)}
     >
-      {/* Header Section */}
       <View style={styles.header}>
         <View style={styles.iconContainer}>
-          <Text style={styles.icon}>🐷</Text>
+          <Text style={styles.icon}>{item.icon}</Text>
         </View>
         <Text style={styles.title}>{item?.name}</Text>
       </View>
 
-      {/* Progress Section */}
       <View style={styles.progressContainer}>
         <Text style={styles.percentageText}>
-          {calculatePercentage(item?.saved, item?.goal)}% saved
+          {calculatePercentage(item?.saved, item?.goal) || 60}% saved
         </Text>
         <Circle
-          size={60}
-          progress={90 / 100}
-          style={styles.iconContainer}
-          color="#0F172A"
-          // unfilledColor="#fff"
-          borderWidth={2}
-          thickness={6}
+          size={100}
+          progress={calculatePercentage(item?.saved, item?.goal) || 60/100}
+          // style={styles.iconContainer}
+          color="#85C898"
+          unfilledColor="#0F172A"//#0F172A
+          borderWidth={0}
+          thickness={10}
         />
         <Text style={styles.percentageText}>
-          {calculatePercentage(item?.left, item?.goal)}% left
+          {calculatePercentage(item?.left, item?.goal)|| 40}% left
         </Text>
       </View>
 
-      {/* Details Section */}
       <Text style={styles.detail}>
         <Text style={styles.bold}>Goal: </Text>${Number(item?.goal).toFixed(2)}
       </Text>
@@ -74,16 +71,19 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   iconContainer: {
-   fill: "white"
+    backgroundColor: '#e6e6e6', 
+    borderRadius: 50,
+    padding: 10,
+    marginRight: 8,
   },
   icon: {
     fontSize: 24,
     color: '#fff',
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#0F172A',
   },
   progressContainer: {
     flexDirection: 'row',
@@ -94,16 +94,16 @@ const styles = StyleSheet.create({
   percentageText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: '#0F172A',
   },
   detail: {
     fontSize: 14,
-    color: '#555',
+    color: 'black',
     marginVertical: 4,
   },
   bold: {
     fontWeight: 'bold',
-    color: '#333',
+    color: '#0F172A',
   },
 });
 

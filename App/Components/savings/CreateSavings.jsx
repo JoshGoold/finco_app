@@ -2,120 +2,111 @@
 
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearSavingsTrackerInput, setSavingsTrackerInput, toggleSActive } from '../../../redux/actions';
 // import EmojiPicker from 'emoji-picker-react';
 // import { Button } from '../../../../../components/ui/button'; // Adjust import path based on your project structure.
 
 const CreateSavings = ({ refreshData, edit, existingData }) => {
-  const [name, setName] = useState('');
-  const [goal, setGoal] = useState('');
-  const [icon, setIcon] = useState('$$');
-  // const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
+  const { icon, name, goal } = useSelector((state) => state.s_input);
+  const dispatch = useDispatch();
+  const active = useSelector((state) => state.s_active);
 
-  const editSavings = () => {
-    if (existingData) {
-      setGoal(existingData.goal);
-      setName(existingData.name);
-      setIcon(existingData.icon);
-    }
-    setModalVisible(true);
+  const handleInputChange = (field, value) => {
+    dispatch(setSavingsTrackerInput(field, value));
   };
 
-  const addSavings = () => {
-    try {
-      const left = goal - Number(existingData?.saved || 0);
-
-      if (existingData) {
-        // Update existing savings logic here
-        console.log('Edited:', { left, icon, goal, name });
-      } else {
-        // Insert new savings logic here
-        console.log('Added:', {
-          id: Date.now(),
-          icon,
-          name,
-          goal,
-          saved: 0,
-          left: goal,
-          reached: false,
-          retired: false,
-        });
-      }
-
-      setName('');
-      setGoal('');
-      setModalVisible(false);
-      refreshData && refreshData();
-    } catch (error) {
-      console.error(error);
-    }
+  const handleSave = () => {
+    const newTracker = {id:Date.now(), name, icon, goal };
+    dispatch(addSavings(newTracker));
+    dispatch(clearSavingsTrackerInput());
+    handleCancel()
   };
+
+  const handleCancel = () => {
+    dispatch(toggleSActive());
+  };
+
 
   return (
     <View style={{ padding: 16 }}>
       <TouchableOpacity
-        style={styles.createButton}
-        onPress={() => (edit ? editSavings() : setModalVisible(true))}
+        style={styles.triggerButton}
+        onPress={() => dispatch(toggleSActive())}
       >
-        <Text style={styles.createButtonText}>
-          {edit ? 'Edit Savings Tracker' : 'Create Tracker +'}
+        <Text style={styles.triggerButtonText}>
+          Create Tracker +
         </Text>
       </TouchableOpacity>
 
-      {/* Modal */}
-      <Modal visible={modalVisible} transparent animationType="slide" onRequestClose={() => setModalVisible(false)}>
-        <View style={styles.modalOverlay}>
+      <Modal visible={active} transparent animationType="slide" >
+      <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Add a New Tracker</Text>
 
-            {/* Emoji Picker */}
             <TouchableOpacity
               style={styles.emojiButton}
               onPress={() => setOpenEmojiPicker(!openEmojiPicker)}
             >
-              <Text style={{ fontSize: 24 }}>{icon}</Text>
+              <Text style={styles.emojiText}>{icon}</Text>
             </TouchableOpacity>
-            
 
-            {/* Name Input */}
             <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Name</Text>
+            <Text>Tracker Name</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={setName}
+                placeholder="Enter Tracker name"
                 value={name}
-                placeholder="e.g. Emergency Fund"
+                onChangeText={(text) => handleInputChange("name", text)}
               />
             </View>
-
-            {/* Goal Input */}
             <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Goal</Text>
+              <Text>Savings Goal</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={setGoal}
+                placeholder="Enter Goal"
                 value={goal}
-                placeholder="e.g. 3000"
                 keyboardType="numeric"
+                onChangeText={(text) => handleInputChange("goal", text)}
               />
             </View>
 
-            {/* Save Button */}
+            <View style={styles.buttonContainer}>
             <TouchableOpacity
               disabled={!(name && goal)}
-              onPress={addSavings}
-              style={styles.saveButton}
+              onPress={handleSave}
+              style={{
+                width: "40%",
+                backgroundColor: "#0F172A",
+                padding: 10,
+                borderRadius: 15,
+              }}
             >
-              <Text style={styles.saveButtonText}>Save</Text>
+              <Text  style={{
+                    color: "white",
+                    textAlign: "center",
+                    fontSize: 20,
+                  }}>Save</Text>
             </TouchableOpacity>
 
-            {/* Close Button */}
             <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
+               style={{
+                width: "40%",
+                borderWidth: 1,
+                backgroundColor: "white",
+                padding: 10,
+                borderRadius: 15,
+              }}
+              onPress={handleCancel}
             >
-              <Text style={styles.closeButtonText}>Close</Text>
+              <Text style={{
+                    color: "#0F172A",
+                    fontSize: 20,
+                    textAlign: "center",
+                  }}>Cancel</Text>
             </TouchableOpacity>
+            </View>
+            
           </View>
         </View>
       </Modal>
@@ -124,76 +115,60 @@ const CreateSavings = ({ refreshData, edit, existingData }) => {
 };
 
 const styles = StyleSheet.create({
-  createButton: {
-  backgroundColor: "#0F172A",
+  triggerButton: {
+    backgroundColor: "#0F172A",
     padding: 10,
     borderRadius: 5,
     alignItems: "center",
   },
-  createButtonText: {
+  triggerButtonText: {
     color: "#fff",
     fontWeight: "bold",
   },
-  modalOverlay: {
+  modalContainer: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    width: '90%',
-    backgroundColor: '#fff',
-    borderRadius: 10,
+    width: "90%",
+    backgroundColor: "#fff",
+    borderRadius: 20,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 16,
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 20,
   },
   emojiButton: {
-    backgroundColor: '#f0f0f0',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginBottom: 16,
+    backgroundColor: "#e6e6e6",
+    borderRadius: 50,
+    padding: 10,
+    marginRight: 8,
+    marginBottom: 10,
+  },
+  emojiText: {
+    fontSize: 24,
   },
   inputContainer: {
-    width: '100%',
-    marginBottom: 16,
-  },
-  inputLabel: {
-    fontSize: 16,
-    marginBottom: 4,
+    width: "100%",
+    marginBottom: 15,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
+    borderRadius: 10,
+    padding: 10,
+    marginTop: 5,
+    width: "100%",
+    backgroundColor: "#e6e6e6",
   },
-  saveButton: {
-    backgroundColor: '#70A288',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  saveButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  closeButton: {
-    marginTop: 16,
-  },
-  closeButtonText: {
-    color: '#ff6b6b',
-    fontSize: 16,
-    fontWeight: 'bold',
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 20,
+    width: "100%",
   },
 });
-
 export default CreateSavings;
