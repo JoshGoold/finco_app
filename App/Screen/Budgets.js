@@ -58,7 +58,7 @@ const Budgets = () => {
       <ScrollView
         style={{
           backgroundColor: 'white',
-          marginTop: 30,
+          // marginTop: 30,
           marginBottom: 40,
           padding: 20,
           flexDirection: 'column',
@@ -109,7 +109,7 @@ const Budgets = () => {
             <Budget key={key} budget={budget}/>
            ))
           ) : (
-            <Text style={styles.noBudgetsText}>No budgets available</Text>
+            <Text style={styles.noBudgetsText}>No budgets created</Text>
           )}
         </View>
         )}

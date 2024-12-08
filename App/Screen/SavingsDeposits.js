@@ -27,7 +27,7 @@ const tracker = useRoute().params.tracker
   const deleteTracker = () => {
     Alert.alert(
       "Confirm Deletion",
-      "Are you sure you want to delete this budget?",
+      "Are you sure you want to delete this tracker?",
       [
         {
           text: "Cancel",

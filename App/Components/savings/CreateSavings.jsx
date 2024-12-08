@@ -35,7 +35,7 @@ const CreateSavings = ({refreshData}) => {
         onPress={() => dispatch(toggleSActive())}
       >
         <Text style={styles.triggerButtonText}>
-          Create Tracker +
+          Add New Tracker +
         </Text>
       </TouchableOpacity>
 

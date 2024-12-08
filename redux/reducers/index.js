@@ -26,6 +26,7 @@ import {
   ADD_PLAN_ITEM,
   REMOVE_PLAN,
   REMOVE_PLAN_ITEM,
+  TOGGLE_P_ACTIVE,
 } from "../actions";
 
 const initial = {
@@ -53,9 +54,10 @@ const initial = {
     name: "",
     amount: 0,
   },
-  budgets_activeSection: "statistics",
+  budgets_activeSection: "budgets",
   active: false,
   s_active: false,
+  p_active: false,
   isLightTheme: false,
 };
 
@@ -71,6 +73,12 @@ const budgetHandler = (state = initial, action) => {
         ...state,
         active: !state.active,
       };
+
+      case TOGGLE_P_ACTIVE:
+        return {
+          ...state,
+          p_active: !state.p_active,
+        };
       case TOGGLE_S_ACTIVE:
       return {
         ...state,

@@ -27,7 +27,7 @@ const AddDeposit = ({tracker}) => {
     <View style={styles.container}>
       <Text style={styles.title}>Add to Savings</Text>
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Expense Amount</Text>
+        <Text style={styles.inputLabel}>Deposit Amount</Text>
       <TextInput
         style={styles.input}
         value={amount}

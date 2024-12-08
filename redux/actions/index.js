@@ -32,6 +32,7 @@ export const ADD_DEPOSIT = 'ADD_DEPOSIT'
 export const REMOVE_DEPOSIT = 'REMOVE_DEPOSIT'
 
 export const TOGGLE_ACTIVE = 'TOGGLE_ACTIVE'
+export const TOGGLE_P_ACTIVE = 'TOGGLE_P_ACTIVE'
 export const TOGGLE_S_ACTIVE = 'TOGGLE_S_ACTIVE'
 
 export const SET_B_ACTIVE_SECTION = 'SET_B_ACTIVE_SECTION'
@@ -44,6 +45,11 @@ export const setActiveSection = (state)=>({
 export const toggleActive = () => ({
   type: TOGGLE_ACTIVE
 })
+
+export const togglePActive = () => ({
+  type: TOGGLE_P_ACTIVE
+})
+
 
 export const toggleSActive = () => ({
   type: TOGGLE_S_ACTIVE

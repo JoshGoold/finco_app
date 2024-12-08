@@ -58,7 +58,7 @@ const SavingsPage = () => {
           gap: 10,
         }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: 10 }}>
-        <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#0F172A' }}>Savings</Text>
+        <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#0F172A' }}>My Savings</Text>
         <CreateSavings refreshData={getSavingsList}/>
       </View>
       <Cards saved={saved} goal={goal} left={left} count={count} />
