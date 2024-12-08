@@ -149,7 +149,7 @@ const Login = () => {
             Don't have an account?{" "}
             <Text
               style={{ color: "#85C898", fontWeight: "bold" }}
-              onPress={() => nav.navigate("signup", { userid: userid })}
+              onPress={() => nav.navigate("signup")}
             >
               Sign up
             </Text>
