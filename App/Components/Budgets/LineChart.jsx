@@ -4,7 +4,7 @@ import { Dimensions, View, Text, PanResponder } from "react-native";
 import { useSelector } from "react-redux";
 
 const screenWidth = Dimensions.get("window").width;
-
+// problem
 const Chart = () => {
   const [dataSet, setDataSet] = useState("monthly");
   const lastTapRef = useRef(null);
@@ -80,10 +80,10 @@ const Chart = () => {
   });
 
   const chartConfig = {
-    backgroundGradientFrom: "white",
-    backgroundGradientTo: "white",
+    backgroundGradientFrom: "#ffffff",
+    backgroundGradientTo: "#ffffff",
     decimalPlaces: 0,
-    color: (opacity = 1) => `white`,
+    color: (opacity = 1) => `#ffffff`,
     labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     style: {
       borderRadius: 16,

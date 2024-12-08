@@ -3,24 +3,24 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearSavingsTrackerInput, setSavingsTrackerInput, toggleSActive } from '../../../redux/actions';
+import { addSavingsTracker, clearSavingsTrackerInput, setSavingsTrackerInput, toggleSActive } from '../../../redux/actions';
 // import EmojiPicker from 'emoji-picker-react';
 // import { Button } from '../../../../../components/ui/button'; // Adjust import path based on your project structure.
 
-const CreateSavings = ({ refreshData, edit, existingData }) => {
-  const { icon, name, goal } = useSelector((state) => state.s_input);
+const CreateSavings = ({refreshData}) => {
+  const [name, setName] = useState('')
+  const [goal, setGoal] = useState('')
+  const { icon } = useSelector((state) => state.s_input);
   const dispatch = useDispatch();
   const active = useSelector((state) => state.s_active);
 
-  const handleInputChange = (field, value) => {
-    dispatch(setSavingsTrackerInput(field, value));
-  };
-
   const handleSave = () => {
     const newTracker = {id:Date.now(), name, icon, goal };
-    dispatch(addSavings(newTracker));
-    dispatch(clearSavingsTrackerInput());
+    dispatch(addSavingsTracker(newTracker));
+    setName('')
+    setGoal('')
     handleCancel()
+    refreshData()
   };
 
   const handleCancel = () => {
@@ -46,7 +46,6 @@ const CreateSavings = ({ refreshData, edit, existingData }) => {
 
             <TouchableOpacity
               style={styles.emojiButton}
-              onPress={() => setOpenEmojiPicker(!openEmojiPicker)}
             >
               <Text style={styles.emojiText}>{icon}</Text>
             </TouchableOpacity>
@@ -57,7 +56,7 @@ const CreateSavings = ({ refreshData, edit, existingData }) => {
                 style={styles.input}
                 placeholder="Enter Tracker name"
                 value={name}
-                onChangeText={(text) => handleInputChange("name", text)}
+                onChangeText={setName}
               />
             </View>
             <View style={styles.inputContainer}>
@@ -67,14 +66,14 @@ const CreateSavings = ({ refreshData, edit, existingData }) => {
                 placeholder="Enter Goal"
                 value={goal}
                 keyboardType="numeric"
-                onChangeText={(text) => handleInputChange("goal", text)}
+                onChangeText={setGoal}
               />
             </View>
 
             <View style={styles.buttonContainer}>
             <TouchableOpacity
               disabled={!(name && goal)}
-              onPress={handleSave}
+              onPress={()=>handleSave()}
               style={{
                 width: "40%",
                 backgroundColor: "#0F172A",

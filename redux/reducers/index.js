@@ -16,12 +16,24 @@ import {
   SET_SAVINGS_TRACKER_INPUT,
   CLEAR_SAVINGS_TRACKER_INPUT,
   TOGGLE_S_ACTIVE,
+  ADD_DEPOSIT,
+  REMOVE_DEPOSIT,
+  SET_DEPOSIT,
+  SET_EXPENSES,
+  SET_PLANS,
+  SET_PLAN_ITEMS,
+  ADD_PLAN,
+  ADD_PLAN_ITEM,
+  REMOVE_PLAN,
+  REMOVE_PLAN_ITEM,
 } from "../actions";
 
 const initial = {
   budgets: [],
   expenses: [],
   deposits: [],
+  plans: [],
+  planItems: [],
   s_trackers: [],
   s_input: {
       id: Date.now(),
@@ -40,12 +52,6 @@ const initial = {
     icon: "💵",
     name: "",
     amount: 0,
-  },
-  s_input: {
-    id: Date.now(),
-    icon: "🪙",
-    name: "",
-    goal: 0
   },
   budgets_activeSection: "statistics",
   active: false,
@@ -88,7 +94,6 @@ const budgetHandler = (state = initial, action) => {
       case UPDATE_Budget:
         return{
           ...state,
-          
         }
      
     case SET_Budget_INPUT:
@@ -108,6 +113,11 @@ const budgetHandler = (state = initial, action) => {
         },
       };
 
+      case SET_EXPENSES: 
+      return {
+        ...state, 
+        expenses: action.payload
+      }
       case ADD_EXPENSE:
       return {
         ...state,
@@ -136,6 +146,21 @@ const budgetHandler = (state = initial, action) => {
         },
       };
 
+      case SET_DEPOSIT: 
+      return {
+        ...state, 
+        deposits: action.payload
+      }
+      case ADD_DEPOSIT:
+      return {
+        ...state,
+        deposits: [...state.deposits, action.payload],
+      };
+    case REMOVE_DEPOSIT:
+      return {
+        ...state,
+        deposits: state.deposits.filter((deposit) => deposit.id !== action.payload),
+      };
       case ADD_SAVINGS_TRACKER:
         return {
           ...state,
@@ -146,8 +171,6 @@ const budgetHandler = (state = initial, action) => {
           ...state,
           s_trackers: state.s_trackers.filter((tracker) => tracker.id !== action.payload),
         };
-
-        // not working for SOME reason only God the father knows
       case SET_SAVINGS_TRACKER_INPUT:
         return {
           ...state,
@@ -164,6 +187,41 @@ const budgetHandler = (state = initial, action) => {
           },
         };
     
+        case SET_PLANS: 
+        return {
+          ...state, 
+          plans: action.payload
+        }
+
+        case ADD_PLAN:
+          return {
+            ...state,
+            plans: [...state.plans, action.payload]
+          }
+
+          case REMOVE_PLAN:
+            return {
+              ...state, 
+              plans: state.plans.filter(plan=>plan.id !== action.payload)
+            }
+
+        case SET_PLAN_ITEMS: 
+        return {
+          ...state, 
+          planItems: action.payload
+        }
+
+        case ADD_PLAN_ITEM:
+          return {
+            ...state,
+            planItems: [...state.planItems, action.payload]
+          }
+       
+          case REMOVE_PLAN_ITEM:
+            return {
+              ...state, 
+              planItems: state.planItems.filter(item=>item.id !== action.payload)
+            }
 
     default:
       return state;

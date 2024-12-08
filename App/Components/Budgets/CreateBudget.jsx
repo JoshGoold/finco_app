@@ -20,7 +20,6 @@ const CreateBudget = ({ edit }) => {
   const { icon, name, amount } = useSelector((state) => state.b_input);
   const dispatch = useDispatch();
   const active = useSelector((state) => state.active);
-  const [openEmojiPicker, setopenEmojiPicker] = useState(true)
 
   const handleInputChange = (field, value) => {
     dispatch(setBudgetInput(field, value));

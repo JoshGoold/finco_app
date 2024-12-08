@@ -1,18 +1,47 @@
-import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import {Circle} from 'react-native-progress';
+import { useSelector } from 'react-redux';
 
-const Tracker = ({ item, onNavigate }) => {
+const Tracker = ({ item }) => {
+  const nav = useNavigation()
+  const [saved, setSaved] = useState(0)
+  const [left, setLeft] = useState(0)
+  const [count, setCount] = useState(0)
+  const deposits = useSelector((state)=>state.deposits)
+
   const calculatePercentage = (num, goal) => {
     const perc = (Number(num) / Number(goal)) * 100;
     return Math.round(perc);
   };
 
+  const getStats = () =>{
+    
+    let thisDeposits = deposits?.filter((deposit)=>deposit.tracker==item.id)
+    let saved = 0
+    let left = 0
+    let count = 0
+    thisDeposits.forEach((deposit)=>{
+      saved += Number(deposit.amount)
+      count+=1
+    }) 
+
+    left = item.goal- saved
+
+    setLeft(left)
+    setSaved(saved)
+    setCount(count)
+  }
+
+  useEffect(()=>{
+    getStats()
+  }, [item])
+
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => onNavigate(`/dashboard/savings/${item?.id}`)}
-    >
+      onPress={()=>nav.navigate('deposits',{tracker: item} )}    >
       <View style={styles.header}>
         <View style={styles.iconContainer}>
           <Text style={styles.icon}>{item.icon}</Text>
@@ -22,11 +51,11 @@ const Tracker = ({ item, onNavigate }) => {
 
       <View style={styles.progressContainer}>
         <Text style={styles.percentageText}>
-          {calculatePercentage(item?.saved, item?.goal) || 60}% saved
+          {calculatePercentage(saved, item?.goal)}% saved
         </Text>
         <Circle
           size={100}
-          progress={calculatePercentage(item?.saved, item?.goal) || 60/100}
+          progress={calculatePercentage(saved, item?.goal)/100}
           // style={styles.iconContainer}
           color="#85C898"
           unfilledColor="#0F172A"//#0F172A
@@ -34,7 +63,7 @@ const Tracker = ({ item, onNavigate }) => {
           thickness={10}
         />
         <Text style={styles.percentageText}>
-          {calculatePercentage(item?.left, item?.goal)|| 40}% left
+          {calculatePercentage(left, item?.goal)}% left
         </Text>
       </View>
 
@@ -42,14 +71,14 @@ const Tracker = ({ item, onNavigate }) => {
         <Text style={styles.bold}>Goal: </Text>${Number(item?.goal).toFixed(2)}
       </Text>
       <Text style={styles.detail}>
-        <Text style={styles.bold}>Total Saved: </Text>${Number(item?.saved).toFixed(2)}
+        <Text style={styles.bold}>Total Saved: </Text>${Number(saved).toFixed(2)}
       </Text>
       <Text style={styles.detail}>
-        <Text style={styles.bold}>Amount Left: </Text>${Number(item?.left).toFixed(2)}
+        <Text style={styles.bold}>Amount Left: </Text>${Number(left).toFixed(2)}
       </Text>
       <Text style={styles.detail}>
         <Text style={styles.bold}>Number of Deposits: </Text>
-        {item?.totalDeposits > 0 ? Number(item?.totalDeposits).toFixed(2) : 0}
+        {count}
       </Text>
     </TouchableOpacity>
   );

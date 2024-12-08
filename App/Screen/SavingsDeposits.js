@@ -10,22 +10,21 @@ import {
   Dimensions,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native"; // For navigation
-// import { PanResponder } from 'react-native'
-import AddExpense from "../Components/Budgets/AddExpense";
-import ExpenseList from "../Components/Budgets/ExpensesList";
-import Budget from "../Components/Budgets/Budget";
+import List from "../Components/savings/DepositsList";
+import AddDeposit from "../Components/savings/AddDeposit";
+import Tracker from '../Components/savings/Tracker'
 import { ScrollView } from "react-native-gesture-handler";
 import Nav from "../Components/Nav";
 import { useDispatch } from "react-redux";
-import { removeBudget } from "../../redux/actions";
+import { removeSavingsTracker } from "../../redux/actions";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const BudgetPage = () => {
+const Deposits = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation();
-    const budget = useRoute().params.budget
+const tracker = useRoute().params.tracker
 
-  const deleteBudget = () => {
+  const deleteTracker = () => {
     Alert.alert(
       "Confirm Deletion",
       "Are you sure you want to delete this budget?",
@@ -38,7 +37,7 @@ const BudgetPage = () => {
         {
           text: "Delete",
           onPress: () => {
-            dispatch(removeBudget(budget.id));
+            dispatch(removeSavingsTracker(tracker.id));
             navigation.goBack()
           },
         },
@@ -62,28 +61,27 @@ const BudgetPage = () => {
           onPress={() => navigation.goBack()}
           style={styles.goBackButton}
         >
-          <Text style={styles.goBackText}><Ionicons name="arrow-back" size={24} color="black" /></Text>
+         <Text style={styles.goBackText}><Ionicons name="arrow-back" size={24} color="black" /></Text>
         </TouchableOpacity>
 
         <View style={styles.header}>
-          <Text style={styles.pageTitle}>My Expenses</Text>
+          <Text style={styles.pageTitle}>My Deposits</Text>
           <View style={styles.actionButtons}>
-            <TouchableOpacity onPress={deleteBudget} style={{backgroundColor: 'red', padding: 10, borderRadius: 10}}><Text style={{color: 'white', fontWeight: 'bold'}}>Delete</Text></TouchableOpacity>
+            <TouchableOpacity onPress={deleteTracker} style={{backgroundColor: 'red', padding: 10, borderRadius: 10}}><Text style={{color: 'white', fontWeight: 'bold'}}>Delete</Text></TouchableOpacity>
             {/* <Button title="Delete"  color="red" /> */}
           </View>
         </View>
         <View style={{ flexDirection: "column", gap: 10 }}>
-          <Budget budget={budget}/>
-          {/* <Text>{budget.id}</Text> */}
-          <AddExpense budgetId={budget.id} userId={10000} />
+          <Tracker item={tracker}/>
+          <AddDeposit tracker={tracker.id}  />
         </View>
 
         <View style={styles.latestExpensesContainer}>
           {/* <Text style={styles.latestExpensesTitle}>Latest Expenses</Text> */}
-          <ExpenseList budget={budget.id}/>
+          <List tracker={tracker.id}/>
         </View>
       </ScrollView>
-      <Nav isActive={'budgets'}/>
+      <Nav isActive={'savings'}/>
     </SafeAreaView>
   );
 };
@@ -101,9 +99,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     color: "black",
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 5
   },
   header: {
     flexDirection: "row",
@@ -134,4 +129,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BudgetPage;
+export default Deposits;

@@ -12,7 +12,7 @@ const Nav = ({isActive}) => {
     { id: '2', title: 'Budgets', path: 'budgets' },
     { id: '3', title: 'Plans', path: 'plans' },
     { id: '4', title: 'Savings', path: 'savings' },
-    { id: '5', title: 'Bills', path: 'bills' },
+    // { id: '5', title: 'Bills', path: 'bills' },
     { id: '0', title: 'Logout', path: 'home' },
   ]
 

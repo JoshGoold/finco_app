@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView, FlatList, Dimensions } from 'react-native'
 import Budget from '../Components/Budgets/Budget'
 import CreateBudget from '../Components/Budgets/CreateBudget'
@@ -23,10 +23,35 @@ const Budgets = () => {
   const dispatch = useDispatch()
   const budgets = useSelector((state) => state.budgets)
   const activeSection = useSelector((state)=>state.budgets_activeSection)
-  const totalMoneyHave = 10000.0
-  const totalSpendings = 5050.03
-  const totalBudgets = 5
-  const totalRemaining = totalMoneyHave - totalSpendings
+  const expenses = useSelector((state)=>state.expenses)
+  const [totalMoneyHave, setTotalMoney] = useState(0)
+  const [totalSpendings, setTotalSpend] = useState(0)
+  const [totalBudgets, setCount] = useState(0)
+  const [totalRemaining, setRemaining] = useState(0)
+
+  useEffect(()=>{
+    getStats()
+  }, [budgets, expenses])
+
+  const getStats = () =>{
+    let count = 0
+    let totalMoney = 0
+    let spendings =0
+    let remaining =0
+    expenses.forEach(expense => {
+      spendings += Number(expense.amount)
+    });
+    budgets.forEach(budget=>{
+      totalMoney += Number(budget.amount)
+      count += 1
+    })
+    remaining = totalMoney - spendings
+
+    setCount(count)
+    setRemaining(remaining)
+    setTotalMoney(totalMoney)
+    setTotalSpend(spendings)
+  }
   // [styles.container, {height: Dimensions.get('screen').height}]
   return (
     <SafeAreaView style={{ backgroundColor: 'white', height: '100%' }}>
@@ -73,20 +98,16 @@ const Budgets = () => {
 
         {/* Content */}
         {activeSection === 'statistics' ? (
-          <View style={{ marginVertical: 20, paddingHorizontal: 10, paddingVertical: 20 }}>
+          <View style={{ marginVertical: 20, alignSelf: 'center', paddingVertical: 20 }}>
             <Chart />
             <ExpenseList />
           </View>
         ) : (
-          <View style={{ paddingHorizontal: 10, paddingVertical: 20 }}>
+          <View style={{ paddingHorizontal: 10, paddingVertical: 20, marginBottom: 20 }}>
           {budgets?.length > 0 ? (
-            <FlatList
-              data={budgets}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <Budget budget={item} />
-              )}
-            />
+           budgets.map((budget, key)=>(
+            <Budget key={key} budget={budget}/>
+           ))
           ) : (
             <Text style={styles.noBudgetsText}>No budgets available</Text>
           )}

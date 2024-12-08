@@ -4,15 +4,12 @@ import CreateSavings from '../Components/savings/CreateSavings.jsx'
 import Tracker from '../Components/savings/Tracker.jsx';
 import Cards from '../Components/savings/Cards.jsx';
 import Nav from '../Components/Nav.jsx';
+import { useSelector } from 'react-redux';
 
 const SavingsPage = () => {
-  // Dummy data for savings
-  const [savingsList, setList] = useState([
-    { id: 1,name: 'stupid', goal: 5000, saved: 2000, left: 3000, retired: false },
-    { id: 2,name: 'stupid', goal: 10000, saved: 7000, left: 3000, retired: false },
-    { id: 3,name: 'stupid', goal: 2000, saved: 0, left: 2000, retired: true },
-  ]);
-  const [retired, setRetired] = useState([]);
+  const savingsList = useSelector((state)=>state.s_trackers)
+  const deposits = useSelector((state)=>state.deposits)
+  const [list, setList] = useState([]);
   const [count, setCount] = useState(0);
   const [saved, setSaved] = useState(0);
   const [left, setLeft] = useState(0);
@@ -24,21 +21,24 @@ const SavingsPage = () => {
 
   const getSavingsList = () => {
     const current = savingsList.filter(item => item.retired !== true);
-    const retired = savingsList.filter(item => item.retired === true);
-    setRetired(retired);
-    setList(current);
+    // setList(current);
 
     let count = 0;
     let goal = 0;
     let saved = 0;
     let left = 0;
 
+    deposits.forEach(deposit=>{
+      saved += Number(deposit.amount)
+    })
+
     current.forEach(item => {
       count += 1;
-      goal += item.goal;
-      left += item.left;
-      saved += item.saved;
+      goal += Number(item.goal);
+      
     });
+
+    left = goal - saved
 
     setCount(count);
     setGoal(goal);
@@ -47,7 +47,7 @@ const SavingsPage = () => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: 'white', height: '100%' }}>
     <ScrollView style={{
           backgroundColor: 'white',
           // marginTop: 30,
@@ -59,7 +59,7 @@ const SavingsPage = () => {
         }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: 10 }}>
         <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#0F172A' }}>Savings</Text>
-        <CreateSavings refreshData={getSavingsList} edit={false} existingData={null} />
+        <CreateSavings refreshData={getSavingsList}/>
       </View>
       <Cards saved={saved} goal={goal} left={left} count={count} />
       
