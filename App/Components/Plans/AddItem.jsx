@@ -20,7 +20,7 @@ const AddItem = ({plan}) => {
 //   const today = convertTimestampToDate(Date.now())
  
   const handleSave = async () => {
-    const newItem = {id:Date.now(), name, price, notes };
+    const newItem = {id:Date.now(), name, price, notes, plan: plan.id };
     dispatch(addPlanItem(newItem));
    setName('')
    setNotes('')
@@ -41,7 +41,7 @@ const AddItem = ({plan}) => {
       
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Notes</Text>
+        <Text style={styles.inputLabel}>Price</Text>
         <TextInput
       style={styles.input}
       value={price}
@@ -56,7 +56,7 @@ const AddItem = ({plan}) => {
       style={styles.input}
       value={notes}
       onChangeText={setNotes}
-      placeholder="e.g., important"
+      placeholder="e.g., important (keep it simple)"
     />
       </View>
       <TouchableOpacity disabled={!(name)} style={{backgroundColor: "#0F172A", borderRadius: 10, padding: 10}} onPress={handleSave} ><Text style={{color: "white", textAlign: "center"}}>Add New Item</Text></TouchableOpacity></View>

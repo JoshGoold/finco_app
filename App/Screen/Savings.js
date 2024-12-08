@@ -17,7 +17,7 @@ const SavingsPage = () => {
 
   useEffect(() => {
     getSavingsList();
-  }, []);
+  }, [deposits, savingsList]);
 
   const getSavingsList = () => {
     const current = savingsList.filter(item => item.retired !== true);

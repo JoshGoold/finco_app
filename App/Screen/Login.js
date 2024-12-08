@@ -94,7 +94,7 @@ const Login = () => {
           </TouchableOpacity>
         </View>
         <TouchableOpacity
-        onPress={() => nav.navigate("budgets")}
+        onPress={() => nav.navigate("dashboard")}
           style={{
             backgroundColor: "#85C898",
             paddingVertical: 15,
