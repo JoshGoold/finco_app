@@ -13,6 +13,7 @@ import Dashboard from "../Screen/Dashboard"
 import Plans from "../Screen/Plans"
 import Deposits from "../Screen/SavingsDeposits"
 import PlanPage from "../Screen/Plan"
+import LoadingPage from "../Components/Loading/LoadingPage"
 
 const HomeNav = () => {
   return (
@@ -28,6 +29,7 @@ const HomeNav = () => {
             <Stack.Screen name="dashboard" component={Dashboard} />
             <Stack.Screen name="plans" component={Plans} />
             <Stack.Screen name="plan" component={PlanPage} />
+            <Stack.Screen name="loading" component={LoadingPage} />
         </Stack.Navigator>
     
   )

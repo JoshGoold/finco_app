@@ -35,6 +35,8 @@ export const TOGGLE_ACTIVE = 'TOGGLE_ACTIVE'
 export const TOGGLE_P_ACTIVE = 'TOGGLE_P_ACTIVE'
 export const TOGGLE_S_ACTIVE = 'TOGGLE_S_ACTIVE'
 
+export const SET_INCOME = 'SET_INCOME'
+
 export const SET_B_ACTIVE_SECTION = 'SET_B_ACTIVE_SECTION'
 
 export const setActiveSection = (state)=>({
@@ -165,4 +167,9 @@ export const addPlanItem = (item) =>({
 export const removePlanItem = (id) =>({
   type: REMOVE_PLAN_ITEM,
   payload: id
+})
+
+export const setIncome = (income) =>({
+  type: SET_INCOME,
+  payload: income
 })

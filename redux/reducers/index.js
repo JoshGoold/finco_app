@@ -29,11 +29,15 @@ import {
   TOGGLE_P_ACTIVE,
 } from "../actions";
 
+//added user and income please add necessary implementation
+
 const initial = {
   budgets: [],
+  user: [], 
   expenses: [],
   deposits: [],
   plans: [],
+  income: [],
   planItems: [],
   s_trackers: [],
   s_input: {

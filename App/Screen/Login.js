@@ -1,16 +1,49 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+  Alert
 } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+// import {setUser} from "../../redux/actions/setUser" <-- need implementation
 
 const Login = () => {
   const nav = useNavigation();
   // save informationin redux store
+  // const dispatch = useDispatch()
+
+  const [userid, setUserid] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    if (!username || !password) {
+      Alert.alert("Validation Error", "Please provide a username and password.");
+    }
+    try {
+      const response = await fetch(
+        `https://final-project-backend-9io5wpxd9-joshs-projects-9174c388.vercel.app/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        }
+      );
+      const data = await response.json();
+      if (data.Success) {
+        console.log(data);
+        setUserid(String(data.User._id));
+        // dispatch(setUser(data.User)) <-- need implementation
+        nav.navigate("loading", { userid: data.User._id });
+      }
+    } catch (error) {
+      console.error("Error logging in: ", error);
+    }
+  };
   return (
     <SafeAreaView
       style={{
@@ -57,7 +90,8 @@ const Login = () => {
         </Text>
         <View style={{ width: "100%", marginBottom: 20 }}>
           <TextInput
-            placeholder="Email"
+            placeholder="Username"
+            onChangeText={setUsername}
             placeholderTextColor="#aaa"
             style={{
               backgroundColor: "none",
@@ -72,6 +106,7 @@ const Login = () => {
             }}
           />
           <TextInput
+            onChangeText={setPassword}
             placeholder="Password"
             placeholderTextColor="#aaa"
             secureTextEntry
@@ -94,7 +129,7 @@ const Login = () => {
           </TouchableOpacity>
         </View>
         <TouchableOpacity
-        onPress={() => nav.navigate("budgets")}
+          onPress={() => handleLogin()}
           style={{
             backgroundColor: "#85C898",
             paddingVertical: 15,
@@ -114,7 +149,7 @@ const Login = () => {
             Don't have an account?{" "}
             <Text
               style={{ color: "#85C898", fontWeight: "bold" }}
-              onPress={() => nav.navigate("signup")}
+              onPress={() => nav.navigate("signup", { userid: userid })}
             >
               Sign up
             </Text>
