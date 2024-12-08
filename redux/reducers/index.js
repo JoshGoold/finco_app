@@ -27,11 +27,15 @@ import {
   REMOVE_PLAN,
   REMOVE_PLAN_ITEM,
   TOGGLE_P_ACTIVE,
+  SET_INCOME,
+  SET_SAVINGS_TRACKER,
+  TOGGLE_I_ACTIVE,
 } from "../actions";
 
 //added user and income please add necessary implementation
 
 const initial = {
+  income: 0,
   budgets: [],
   user: [], 
   expenses: [],
@@ -62,6 +66,7 @@ const initial = {
   active: false,
   s_active: false,
   p_active: false,
+  i_active: false,
   isLightTheme: false,
 };
 
@@ -87,6 +92,11 @@ const budgetHandler = (state = initial, action) => {
       return {
         ...state,
         s_active: !state.s_active,
+      };
+      case TOGGLE_I_ACTIVE:
+      return {
+        ...state,
+        i_active: !state.i_active,
       };
     case SET_B_ACTIVE_SECTION:
       return {
@@ -173,6 +183,11 @@ const budgetHandler = (state = initial, action) => {
         ...state,
         deposits: state.deposits.filter((deposit) => deposit.id !== action.payload),
       };
+      case SET_SAVINGS_TRACKER:
+        return {
+          ...state,
+          s_trackers: action.payload
+        }
       case ADD_SAVINGS_TRACKER:
         return {
           ...state,
@@ -234,6 +249,12 @@ const budgetHandler = (state = initial, action) => {
               ...state, 
               planItems: state.planItems.filter(item=>item.id !== action.payload)
             }
+
+            case SET_INCOME:
+              return {
+                ...state,
+                income: action.payload
+              }
 
     default:
       return state;

@@ -98,10 +98,13 @@ const Budgets = () => {
 
         {/* Content */}
         {activeSection === 'statistics' ? (
-          <View style={{ marginVertical: 20, alignSelf: 'center', paddingVertical: 20 }}>
+          budgets.length > 0? <View style={{ marginVertical: 20, alignSelf: 'center', paddingVertical: 20 }}>
             <Chart />
-            <ExpenseList />
-          </View>
+            <View style={{paddingHorizontal: 10}}>
+              <ExpenseList />
+            </View>
+            
+          </View> : <Text style={{alignSelf: 'center'}}>No stats available yet</Text>
         ) : (
           <View style={{ paddingHorizontal: 10, paddingVertical: 20, marginBottom: 20 }}>
           {budgets?.length > 0 ? (

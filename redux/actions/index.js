@@ -33,11 +33,14 @@ export const REMOVE_DEPOSIT = 'REMOVE_DEPOSIT'
 
 export const TOGGLE_ACTIVE = 'TOGGLE_ACTIVE'
 export const TOGGLE_P_ACTIVE = 'TOGGLE_P_ACTIVE'
+export const TOGGLE_I_ACTIVE = 'TOGGLE_I_ACTIVE'
 export const TOGGLE_S_ACTIVE = 'TOGGLE_S_ACTIVE'
 
 export const SET_INCOME = 'SET_INCOME'
 
 export const SET_B_ACTIVE_SECTION = 'SET_B_ACTIVE_SECTION'
+
+export const SET_INCOME = 'SET_INCOME'
 
 export const setActiveSection = (state)=>({
   type: SET_B_ACTIVE_SECTION,
@@ -55,6 +58,10 @@ export const togglePActive = () => ({
 
 export const toggleSActive = () => ({
   type: TOGGLE_S_ACTIVE
+})
+
+export const toggleIActive = () => ({
+  type: TOGGLE_I_ACTIVE
 })
 
 export const setBudgets = (Budgets) => ({

@@ -36,7 +36,7 @@ const Tracker = ({ item }) => {
 
   useEffect(()=>{
     getStats()
-  }, [item])
+  }, [deposits])
 
   return (
     <TouchableOpacity

@@ -8,11 +8,13 @@ import { removePlan } from '../../redux/actions';
 import Plan from '../Components/Plans/Plan';
 import AddItem from '../Components/Plans/AddItem';
 import Nav from '../Components/Nav';
+import PlanItemsList from '../Components/Plans/ItemsList';
 
 const PlanPage = () => {
     const dispatch = useDispatch()
     const plan = useRoute().params.plan
     const navigation = useNavigation();
+    
 
     const deletePlan = ()=>{
         Alert.alert(
@@ -61,13 +63,13 @@ const PlanPage = () => {
 
         <View style={{ flexDirection: "column", gap: 10 }}>
           <Plan plan={plan}/>
-         
+            <Text>Notes: {plan.notes}</Text>
           <AddItem plan={plan}/>
         </View>
 
         <View style={styles.latestExpensesContainer}>
           {/* <Text style={styles.latestExpensesTitle}>Latest Expenses</Text> */}
-          {/* <ExpenseList budget={budget.id}/> */}
+          <PlanItemsList plan={plan}/>
         </View>
         </ScrollView>
         <Nav isActive={'plans'}/>
